@@ -55,8 +55,11 @@ app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 app.get('/', function (request, response) {
   response.send('Hello World!')
-  res.json({ 'fulfillmentText': 'Welcome to hello world of eaton.' });
 })
+app.post('/', function (request, response) {
+  // response.send({ 'fulfillmentText':'Hello World!'})
+   response.send({ 'fulfillmentText': 'Welcome to hello world of eaton.' });
+ })
 app.get('/echo', function (request, response) {
   token = myReq(response)
   // response.send("token")
