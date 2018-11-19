@@ -1,6 +1,8 @@
 var express = require('express')
 var request = require('superagent');
+var request1 = require('superagent');
 var app = express()
+var jwttoken;
 
 function myReq(response) {
   new Promise((resolve, reject) => {
@@ -60,10 +62,15 @@ app.post('/', function (request, response) {
   // response.send({ 'fulfillmentText':'Hello World!'})
    response.send({ 'fulfillmentText': 'Welcome to hello world of eaton.' });
  })
-app.get('/echo', function (request, response) {
-  token = myReq(response)
-  // response.send("token")
-})
+// app.get('/echo', function (request, response) {
+//   token = myReq(response)
+//   // response.send("token")
+// })
+
+app.post('/echo', function (request, response) {
+  token = myReq(response);
+  response.send({ 'fulfillmentText': token });
+ })
 
 app.get('/stat', function (request, response) {
   token = myStat(response)
