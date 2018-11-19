@@ -7,19 +7,48 @@ function myReq(response) {
     request
       .put('https://www.eatonsecureconnect.com/m2m-eaton-web/rest/mobileUser/jwt/login')
       .send({
-        "login": "Some-username",
-        "password": "some-password"
+        "login": "",
+        "password": ""
       })
       .set('Content-Type', 'application/json')
       .set('applicationId', 'a10a93111cc44bb4')
       .end((err, res) => {
-        console.log("Response " + res.text + " Error" + err)
-        console.log(res.code)
-        resolve(res.text)
+        if(res){
+          console.log("Response " + res.text + " Error" + err)
+          console.log(res.code)
+          resolve(res.text)
+        } 
       });
   }).then((token) => {
     console.log("Token.........",token)
     response.send(token)
+  });
+}
+
+function myStat(response) {
+  new Promise((resolve, reject) => {
+    request
+      .get('https://www.eatonsecureconnect.com/m2m-eaton-web/rest/mobileUser/pair/all')
+      .set('applicationId', 'a10a93111cc44bb4')
+      .set('jwt', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNjE2NzA4fQ.nrEtxheYjfUb-OzYSMlNVW3yXKLJCxOmVaASlNKfIuSKPCCFcwFsoZAPCgbfcCEpBrpW_ujvwJXvHbYKSc4fZw')
+      .end((err, res) => {
+        if(res){
+          console.log("Response " + res.text + " Error" + err)
+          console.log(res.code)
+          resolve(res.text)
+        } 
+        else{
+          console.log("Response" +res);
+          console.log("Error" +err);
+        }
+      });
+  }).then((token) => {
+    console.log("Token.........",token)
+    response.send(token)
+    response.json({'fulfillmentText':token});
+  }).catch((err) =>{
+    response.json({'fulfillmentText':"Unable to get the status of the panel"});
+    console.log("Error after resolving"+err);
   });
 }
 app.set('port', (process.env.PORT || 5000))
@@ -30,6 +59,10 @@ app.get('/', function (request, response) {
 app.get('/echo', function (request, response) {
   token = myReq(response)
   // response.send("token")
+})
+
+app.get('/stat', function (request, response) {
+  token = myStat(response)
 })
 
 app.listen(app.get('port'), function () {
