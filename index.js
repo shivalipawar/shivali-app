@@ -1,5 +1,4 @@
-// import {login, getState, pair, setState} from './requests'
-var requests = require('./requests')
+var request = require('./requests')
 var bodyParser = require('body-parser');
 var express = require('express')
 var app = express()
@@ -8,23 +7,38 @@ app.use(bodyParser.json());
 app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
-app.post('/pair', function (request, response) {
-  requests.pair(response)
-})
-app.post('/setstate', function (request, response) {
-  requests.setState(response)
-})
+var matchRoute = (query) => {
+  if (query.indexOf("login") != -1 || query.indexOf("sign in") != -1) {
+    return request.login
+  }
+  if (query.indexOf("set panel") != -1 || query.indexOf("set panel state") != -1 || query.indexOf("set state of panel") != -1) {
+    return request.setPanel
+  }
 
-app.post('/getstate', function (request, response) {
-  requests.getState(response)
-})
+  if (query.indexOf("get panel") != -1 || query.indexOf("get panel state") != -1 || query.indexOf("get state of panel") != -1) {
+    return request.getPanelState
+  }
+
+  if (query.indexOf("get paired panel") != -1 || query.indexOf("paired panel") != -1 || query.indexOf("get all panels") != -1 || query.indexOf("get list of panel") != -1) {
+    return request.pair
+  }
+  // if (query.indexOf("unset panel") !=-1 || query.indexOf("set panel state to unset") !=-1 || query.indexOf("get state of panel")) {
+  //   return new Request()getState
+  // }
+  return request.defaultFunc
+};
 
 app.post('/', function (request, response) {
-  // console.log("Request body : " + request.body.queryResult.queryText)
   console.log("Request entire body: " + JSON.stringify(request.body))
   response.send({
     'fulfillmentText': 'Welcome to hello world of eaton.'
   });
+});
+
+app.post('/echo', function (request, response) {
+  console.log("Request entire body: " + JSON.stringify(request.body))
+  apiMethod = matchRoute(request.body.queryResult.queryText)
+  apiMethod(response)
 });
 
 app.post('/login', function (request, response) {

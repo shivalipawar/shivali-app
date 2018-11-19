@@ -1,6 +1,6 @@
 var request = require('superagent');
-var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNjQ0Mjg2fQ.HJZ7RWaUt4VYWidStMfeSxPr2wvDicjgL1Qj_jUxCStnKetszijYZWFOj6gYN9yN4Z7Nu8Eccl0wQ9nK5Yw6xQ';
-var login = function (response, username, password) {
+var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNjU1MDYwfQ.yMuLq-NugzgPZ9lUVgXr0AmPgCeUS1WCPrNk8F2aQXjdIshO-yPtRnvV8T-eivjbjx-zu8v4FNtroNSWnmsMpQ';
+const login = (response, username = "", password = "") => {
   new Promise((resolve, reject) => {
     request
       .put('https://www.eatonsecureconnect.com/m2m-eaton-web/rest/mobileUser/jwt/login')
@@ -21,9 +21,9 @@ var login = function (response, username, password) {
     console.log("Token.........", token)
     response.send(token)
   });
-}
+};
 
-function pair(response) {
+const pair = (response) => {
   new Promise((resolve, reject) => {
     request
       .get('https://www.eatonsecureconnect.com/m2m-eaton-web/rest/mobileUser/pair/all')
@@ -46,7 +46,7 @@ function pair(response) {
         }
       });
   }).then((t) => {
-    console.log("Token.........", t)
+    console.log("Token.........", t);
     response.send(token)
     //response.json({'fulfillmentText':token});
   }).catch((err) => {
@@ -55,7 +55,7 @@ function pair(response) {
   });
 }
 
-function setPanel(response) {
+const setPanel = (response) => {
   new Promise((resolve, reject) => {
     request
       .put('https://www.eatonsecureconnect.com/m2m-eaton-web/async/system/partitions-1/')
@@ -90,9 +90,9 @@ function setPanel(response) {
     //response.json({'fulfillmentText':"Unable to get the status of the panel"});
     console.log("Error after resolving" + err);
   });
-}
+};
 
-function getPanelState(response) {
+const getPanelState = (response) => {
   new Promise((resolve, reject) => {
     request
       .get('https://www.eatonsecureconnect.com/m2m-eaton-web/async/system/partitions-1/')
@@ -120,9 +120,17 @@ function getPanelState(response) {
   });
 }
 
+const defaultFunc = (response) => {
+  response.send({
+    'fulfillmentText': 'could not get you , please repeate again'
+  })
+}
+
+
 module.exports = {
-  getState: getPanelState,
-  setState: setPanel,
+  getPanelState: getPanelState,
+  setPanel: setPanel,
   pair: pair,
-  login: login
+  login: login,
+  defaultFunc: defaultFunc
 };
