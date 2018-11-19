@@ -19,7 +19,7 @@ app.post('/getstate', function (request, response) {
 })
 
 app.post('/', function (request, response) {
-  console.log("Request body : " + request.body.queryResult.queryText)
+  // console.log("Request body : " + request.body.queryResult.queryText)
   console.log("Request entire body: " + JSON.stringify(request))
   response.send({
     'fulfillmentText': 'Welcome to hello world of eaton.'
