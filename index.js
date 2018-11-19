@@ -7,8 +7,8 @@ function myReq(response) {
     request
       .put('https://www.eatonsecureconnect.com/m2m-eaton-web/rest/mobileUser/jwt/login')
       .send({
-        "login": "USername",
-        "password": "somepassword"
+        "login": "Some-username",
+        "password": "some-password"
       })
       .set('Content-Type', 'application/json')
       .set('applicationId', 'a10a93111cc44bb4')
@@ -29,7 +29,7 @@ app.get('/', function (request, response) {
 })
 app.get('/echo', function (request, response) {
   token = myReq(response)
-  // response.send(token)
+  // response.send("token")
 })
 
 app.listen(app.get('port'), function () {
