@@ -1,5 +1,5 @@
 var request = require('superagent');
-var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNjk5Mjg1fQ.5_FwqsamcNf7HrDYlRkU7CqMSXCPJ_GA18DAL0tHAadjVPgXBxlQZt7Nhgb91_qLgNPYh6ySfXM_SnjODPcHjw';
+var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNzA1NjAyfQ.hZl41aFFce28B2tHoQ3LLafLVKYaakIViKKmGvo2VzNY7uYDN7s5IsNhi3_Y1djcdShJXfVXxilaxeXE4jzSRA';
 
 const login = (response, username = "", password = "") => {
   new Promise((resolve, reject) => {
@@ -141,17 +141,15 @@ const getPanelState = (response) => {
       .set('Content-Type', 'application/json')
       .set('jwt', token)
       .end((err, res) => {
-        console.log("Response code : ", res.status)
-        if (res.code == 200) {
-          console.log("Response " + res.text + " Error" + err)
-          console.log(res.code)
+        console.log("Response code is : ", res.status)
+        if (res.status == 200) {
+          console.log("Response " + res.text + " Error :" + err)
           obj=JSON.parse(res.text);
-          console.log(obj)
           //resolve(res.text)
-          response.send({'fulfillmentText': "panel state is "+obj.state});
+          response.send({'fulfillmentText': "current state of panel is "+obj.state});
         } else {
-          console.log("Response" + res);
-          console.log("Error" + err);
+          console.log("Response" + JSON.parse(res));
+          console.log("Error :" + err);
           response.send({'fulfillmentText': " could not get panel state"});
           //reject(res)
         }

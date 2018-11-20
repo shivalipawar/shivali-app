@@ -17,11 +17,9 @@ var matchRoute = (query) => {
   if (query.indexOf("set panel") != -1 || query.indexOf("set panel state") != -1 || query.indexOf("set state of panel") != -1) {
     return request.setPanel
   }
-
   if (query.indexOf("get panel") != -1 || query.indexOf("get panel state") != -1 || query.indexOf("get state of panel") != -1) {
     return request.getPanelState
   }
-
   if (query.indexOf("get paired panel") != -1 || query.indexOf("paired panel") != -1 || query.indexOf("get all panels") != -1 || query.indexOf("get list of panel") != -1) {
     return request.pair
   }
