@@ -11,6 +11,9 @@ var matchRoute = (query) => {
   if (query.indexOf("login") != -1 || query.indexOf("sign in") != -1) {
     return request.login
   }
+  if (query.indexOf("unset panel") !=-1  || query.indexOf("unset panel state")!= -1) {
+    return request.unsetPanel
+  }
   if (query.indexOf("set panel") != -1 || query.indexOf("set panel state") != -1 || query.indexOf("set state of panel") != -1) {
     return request.setPanel
   }
@@ -22,9 +25,6 @@ var matchRoute = (query) => {
   if (query.indexOf("get paired panel") != -1 || query.indexOf("paired panel") != -1 || query.indexOf("get all panels") != -1 || query.indexOf("get list of panel") != -1) {
     return request.pair
   }
-  // if (query.indexOf("unset panel") !=-1 || query.indexOf("set panel state to unset") !=-1 || query.indexOf("get state of panel")) {
-  //   return new Request()getState
-  // }
   return request.defaultFunc
 };
 

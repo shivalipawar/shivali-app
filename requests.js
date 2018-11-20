@@ -1,5 +1,6 @@
 var request = require('superagent');
 var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNjk0MjkzfQ._-flx5K8rnSqf7bvSxc7RGOHMNbxZ9J99IdD5erMJIG7OxujQ99DR9bzmN0whY5algNgfnxJDmvGIQ9D9810Bg';
+
 const login = (response, username = "", password = "") => {
   new Promise((resolve, reject) => {
     request
@@ -93,6 +94,44 @@ const setPanel = (response) => {
   });
 };
 
+const unsetPanel = (response) => {
+  new Promise((resolve, reject) => {
+    request
+      .put('https://www.eatonsecureconnect.com/m2m-eaton-web/async/system/partitions-1/')
+      .send({
+        "state": "unset"
+      })
+      .set('cache-control', 'no-cache')
+      .set('client-token', 'cx8CudMWS7fw6QgcBRP8yjKFFOtWez0H4')
+      .set('Content-Type', 'application/json')
+      .set('jwt', token)
+      .end((err, res) => {
+        console.log("Response code : ", res.status)
+        if (res.status == 200) {
+          console.log("Response " + res.text + " Error" + err)
+          console.log(res.code)
+          obj = JSON.parse(res.text);
+          response.send({
+            'fulfillmentText': 'panel state is '+obj.state
+          })
+        } else {
+          console.log("Response" + res);
+          console.log("Error" + err);
+          response.send({
+            'fulfillmentText': 'failed to unset panel'
+          })
+        }
+      });
+  }).then((token) => {
+    console.log("Token.........", token)
+    response.send(token)
+    //response.json({'fulfillmentText':token});
+  }).catch((err) => {
+    //response.json({'fulfillmentText':"Unable to get the status of the panel"});
+    console.log("Error after resolving" + err);
+  });
+};
+
 const getPanelState = (response) => {
   new Promise((resolve, reject) => {
     request
@@ -136,6 +175,7 @@ const defaultFunc = (response) => {
 module.exports = {
   getPanelState: getPanelState,
   setPanel: setPanel,
+  unsetPanel: unsetPanel,
   pair: pair,
   login: login,
   defaultFunc: defaultFunc
