@@ -1,5 +1,5 @@
 var request = require('superagent');
-var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNjU1MDYwfQ.yMuLq-NugzgPZ9lUVgXr0AmPgCeUS1WCPrNk8F2aQXjdIshO-yPtRnvV8T-eivjbjx-zu8v4FNtroNSWnmsMpQ';
+var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyNjk0MjkzfQ._-flx5K8rnSqf7bvSxc7RGOHMNbxZ9J99IdD5erMJIG7OxujQ99DR9bzmN0whY5algNgfnxJDmvGIQ9D9810Bg';
 const login = (response, username = "", password = "") => {
   new Promise((resolve, reject) => {
     request
@@ -71,8 +71,9 @@ const setPanel = (response) => {
         if (res.status == 200) {
           console.log("Response " + res.text + " Error" + err)
           console.log(res.code)
+          obj = JSON.parse(res.text);
           response.send({
-            'fulfillmentText': 'panel paired successfully'
+            'fulfillmentText': 'panel set successfully to '+obj.state
           })
         } else {
           console.log("Response" + res);
@@ -101,22 +102,27 @@ const getPanelState = (response) => {
       .set('Content-Type', 'application/json')
       .set('jwt', token)
       .end((err, res) => {
+        console.log("Response code : ", res.status)
         if (res.code == 200) {
           console.log("Response " + res.text + " Error" + err)
           console.log(res.code)
-          resolve(res.text)
+          obj=JSON.parse(res.text);
+          console.log(obj)
+          //resolve(res.text)
+          response.send({'fulfillmentText': "panel state is "+obj.state});
         } else {
           console.log("Response" + res);
           console.log("Error" + err);
-          reject(res)
+          response.send({'fulfillmentText': " could not get panel state"});
+          //reject(res)
         }
       });
   }).then((token) => {
     console.log("Token.........", token)
-    response.send({'fulfillmentText': "panel state is fullset"});
+   //response.send({'fulfillmentText': "panel state is fullset"});
   }).catch((err) => {
-    response.send({'fulfillmentText': " could not get panel state"});
-    console.log("Error after resolving" + err);
+    //response.send({'fulfillmentText': " could not get panel state"});
+    console.log("Error after resolving" + JSON.stringify(err));
   });
 }
 
