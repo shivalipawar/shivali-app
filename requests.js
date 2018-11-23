@@ -1,5 +1,5 @@
 var request = require('superagent');
-var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyODg2MzkzfQ._dv_mgoHNdugk39kqOarO7NBGq1cik0yK1f2Z5Sxw8dCRhBNU0OIlqQuelAGm4nLYa_iavN_ZjTcQbuD4QfpdA';
+var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQyOTYwMTE2fQ.AdQuiilrIm6uSKy5FQMTyjozXCMl4FO300akHe4zSqJ1NHkFgwmoUJKCUp3NKifDGmiIanItQ7lSSLXacwYmlg';
 
 const login = (response, username = "", password = "") => {
   new Promise((resolve, reject) => {
