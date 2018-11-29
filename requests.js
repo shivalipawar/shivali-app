@@ -1,5 +1,5 @@
 var request = require('superagent');
-var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQzNDg5MDU3fQ.GAlW_VQxM3kncIndASBG2H39aw-vGWHYo0IPtHH1AFj1GFBiiurEmLc-AaxeLV2Xs2deq9P58akifgtqwUtS4A';
+var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzcEBldG4uY29tIiwiaXNzIjoiVyBXIiwiZXhwIjoxNTQzNDkwNTU0fQ.Ku-0yzCiZk9MlIenREkH3AEWY2wAPZelsRPyfh5r3AndaK4alMXJSgpHpHyZxlXHGZy7WJoI05mLr9pvxHD8QA';
 
 const login = (response, username = "", password = "") => {
   new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ const login = (response, username = "", password = "") => {
 const pair = (response) => {
   new Promise((resolve, reject) => {
     request
-      .get('https://www.eatonsecureconnect.com/m2m-eaton-web/rest/mobileUser/pair/all')
+      .get('https://www.eatonsecureconnect.com/m2m-eaton-web/rest/pair/all')
       .set('applicationId', 'a10a93111cc44bb4')
       .set('jwt', token)
       .end((err, res) => {
@@ -64,7 +64,7 @@ const setPanel = (response) => {
         "state": "fullset" //unset,set.
       })
       .set('cache-control', 'no-cache')
-      .set('client-token', 'cx8CudMWS7fw6QgcBRP8yjKFFOtWez0H4')
+      .set('client-token', 'o5Hd2smYzC10UrPPspyY9jKx0VMz5OgQ9')
       .set('Content-Type', 'application/json')
       .set('jwt', token)
       .end((err, res) => {
@@ -102,7 +102,7 @@ const unsetPanel = (response) => {
         "state": "unset"
       })
       .set('cache-control', 'no-cache')
-      .set('client-token', 'cx8CudMWS7fw6QgcBRP8yjKFFOtWez0H4')
+      .set('client-token', 'o5Hd2smYzC10UrPPspyY9jKx0VMz5OgQ9')
       .set('Content-Type', 'application/json')
       .set('jwt', token)
       .end((err, res) => {
@@ -137,7 +137,7 @@ const getPanelState = (response) => {
     request
       .get('https://www.eatonsecureconnect.com/m2m-eaton-web/async/system/partitions-1/')
       .set('cache-control', 'no-cache')
-      .set('client-token', 'cx8CudMWS7fw6QgcBRP8yjKFFOtWez0H4')
+      .set('client-token', 'o5Hd2smYzC10UrPPspyY9jKx0VMz5OgQ9')
       .set('Content-Type', 'application/json')
       .set('jwt', token)
       .end((err, res) => {
